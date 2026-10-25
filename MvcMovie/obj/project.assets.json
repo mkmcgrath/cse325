@@ -6512,11 +6512,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/rat/edu/dotnet/w04/MvcMovie/MvcMovie.csproj",
+      "projectUniqueName": "/home/rat/edu/dotnet/cse325/MvcMovie/MvcMovie.csproj",
       "projectName": "MvcMovie",
-      "projectPath": "/home/rat/edu/dotnet/w04/MvcMovie/MvcMovie.csproj",
+      "projectPath": "/home/rat/edu/dotnet/cse325/MvcMovie/MvcMovie.csproj",
       "packagesPath": "/home/rat/.nuget/packages/",
-      "outputPath": "/home/rat/edu/dotnet/w04/MvcMovie/obj/",
+      "outputPath": "/home/rat/edu/dotnet/cse325/MvcMovie/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/rat/.nuget/NuGet/NuGet.Config"

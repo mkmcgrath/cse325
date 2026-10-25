@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZNv9xpWSMzs=",
+  "dgSpecHash": "rkQsbzEM7lU=",
   "success": true,
-  "projectFilePath": "/home/rat/edu/dotnet/w04/MvcMovie/MvcMovie.csproj",
+  "projectFilePath": "/home/rat/edu/dotnet/cse325/MvcMovie/MvcMovie.csproj",
   "expectedPackageFiles": [
     "/home/rat/.nuget/packages/azure.core/1.50.0/azure.core.1.50.0.nupkg.sha512",
     "/home/rat/.nuget/packages/azure.identity/1.17.1/azure.identity.1.17.1.nupkg.sha512",
@@ -142,9 +142,9 @@
       "code": "NU1901",
       "level": "Warning",
       "message": "Package 'NuGet.Packaging' 6.12.1 has a known low severity vulnerability, https://github.com/advisories/GHSA-g4vj-cjjj-v7hg",
-      "projectPath": "/home/rat/edu/dotnet/w04/MvcMovie/MvcMovie.csproj",
+      "projectPath": "/home/rat/edu/dotnet/cse325/MvcMovie/MvcMovie.csproj",
       "warningLevel": 1,
-      "filePath": "/home/rat/edu/dotnet/w04/MvcMovie/MvcMovie.csproj",
+      "filePath": "/home/rat/edu/dotnet/cse325/MvcMovie/MvcMovie.csproj",
       "libraryId": "NuGet.Packaging",
       "targetGraphs": [
         "net10.0"
@@ -154,9 +154,9 @@
       "code": "NU1901",
       "level": "Warning",
       "message": "Package 'NuGet.Protocol' 6.12.1 has a known low severity vulnerability, https://github.com/advisories/GHSA-g4vj-cjjj-v7hg",
-      "projectPath": "/home/rat/edu/dotnet/w04/MvcMovie/MvcMovie.csproj",
+      "projectPath": "/home/rat/edu/dotnet/cse325/MvcMovie/MvcMovie.csproj",
       "warningLevel": 1,
-      "filePath": "/home/rat/edu/dotnet/w04/MvcMovie/MvcMovie.csproj",
+      "filePath": "/home/rat/edu/dotnet/cse325/MvcMovie/MvcMovie.csproj",
       "libraryId": "NuGet.Protocol",
       "targetGraphs": [
         "net10.0"

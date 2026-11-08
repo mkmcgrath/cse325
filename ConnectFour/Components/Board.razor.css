@@ -1,0 +1,203 @@
+.game {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2.5rem;
+}
+
+.play-area {
+    --cell: 4em;
+    width: calc(var(--cell) * 7 + 1em);
+}
+
+/* ---------- status line ---------- */
+
+.status {
+    min-height: 3.25em;
+    margin-bottom: 0.5em;
+}
+
+.turn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1.15em;
+    font-weight: 600;
+}
+
+.winner-message {
+    font-size: 1.4em;
+    margin-right: 0.75em;
+}
+
+.dot {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.player1-dot { background-color: var(--player1); }
+.player2-dot { background-color: var(--player2); }
+
+/* ---------- column buttons ---------- */
+
+nav {
+    display: flex;
+    flex-direction: row;
+    margin-left: 0.5em;
+}
+
+nav button {
+    width: var(--cell);
+    text-align: center;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0.25em 0;
+    background: none;
+    border: none;
+    border-bottom: 0.3em solid transparent;
+    border-radius: 0.4em 0.4em 0 0;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+nav.turn-player1 button:not(:disabled):hover,
+nav.turn-player1 button:not(:disabled):focus-visible {
+    border-bottom-color: var(--player1);
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+nav.turn-player2 button:not(:disabled):hover,
+nav.turn-player2 button:not(:disabled):focus-visible {
+    border-bottom-color: var(--player2);
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+nav button:focus-visible {
+    outline: 2px solid #258cfb;
+    outline-offset: -2px;
+}
+
+nav button:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+/* ---------- the board ---------- */
+
+.board-frame {
+    display: inline-block;
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border-radius: 0.8em;
+    background-color: var(--board-bg);
+    box-shadow: 0 0.75em 1.5em rgba(0, 0, 0, 0.25);
+}
+
+.board-wrap {
+    position: relative;
+    width: calc(var(--cell) * 7);
+    height: calc(var(--cell) * 6);
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.board {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.cell {
+    display: block;
+    width: var(--cell);
+    height: var(--cell);
+    margin: 0;
+    padding: 0.25em;
+    overflow: hidden;
+}
+
+.cell span {
+    display: block;
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 50%;
+    box-shadow: inset 0 0.2em 0.35em rgba(0, 0, 0, 0.35), 0 0 0 2em var(--board-bg);
+}
+
+/* ---------- pieces ---------- */
+
+.player1, .player2 {
+    position: absolute;
+    z-index: 1;
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 50%;
+    left: calc(var(--col) * var(--cell) + 0.25em);
+    top: calc((var(--row) - 1) * var(--cell) + 0.25em);
+    animation: drop var(--drop-time) cubic-bezier(0.55, 0, 1, 0.45);
+}
+
+.player1 { background-color: var(--player1); }
+.player2 { background-color: var(--player2); }
+
+.col0 { --col: 0; }
+.col1 { --col: 1; }
+.col2 { --col: 2; }
+.col3 { --col: 3; }
+.col4 { --col: 4; }
+.col5 { --col: 5; }
+.col6 { --col: 6; }
+
+.drop1 { --row: 1; --drop-time: 0.25s; }
+.drop2 { --row: 2; --drop-time: 0.32s; }
+.drop3 { --row: 3; --drop-time: 0.39s; }
+.drop4 { --row: 4; --drop-time: 0.46s; }
+.drop5 { --row: 5; --drop-time: 0.53s; }
+.drop6 { --row: 6; --drop-time: 0.6s; }
+
+@keyframes drop {
+    from { top: calc(var(--cell) * -1); }
+}
+
+/* the four pieces that won the game get a pulsing ring */
+.winning::after {
+    content: "";
+    position: absolute;
+    inset: 0.55em;
+    border-radius: 50%;
+    border: 0.3em solid white;
+    animation: pulse 1s ease-in-out 0.6s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(0.8); opacity: 0.6; }
+    to   { transform: scale(1.1); opacity: 1; }
+}
+
+/* ---------- side panel ---------- */
+
+.side-panel {
+    flex: 1 1 16rem;
+    max-width: 24rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (max-width: 560px) {
+    .play-area {
+        font-size: 11px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .player1, .player2, .winning::after {
+        animation: none;
+    }
+}

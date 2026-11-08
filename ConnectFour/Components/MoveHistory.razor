@@ -1,0 +1,29 @@
+<section class="panel" aria-labelledby="moves-heading">
+    <h2 id="moves-heading">Moves this game <span class="count">(@Moves.Count)</span></h2>
+
+    @if (Moves.Count == 0)
+    {
+        <p class="empty">No moves yet. Player 1 goes first.</p>
+    }
+    else
+    {
+        <ol class="moves">
+            @* newest move first so the latest play is always visible *@
+            @foreach (var move in Enumerable.Reverse(Moves))
+            {
+                <li value="@move.Number">
+                    <span class="dot player@(move.Player)-dot" aria-hidden="true"></span>
+                    Player @move.Player &rarr; column @(move.Column + 1), row @(7 - move.Row)
+                </li>
+            }
+        </ol>
+    }
+</section>
+
+@code {
+    /// <summary>
+    /// The moves of the current game, oldest first
+    /// </summary>
+    [Parameter, EditorRequired]
+    public IReadOnlyList<Move> Moves { get; set; } = Array.Empty<Move>();
+}

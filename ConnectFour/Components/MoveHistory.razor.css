@@ -1,0 +1,49 @@
+.panel {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background: #fff;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin: 0 0 0.75rem;
+}
+
+.count {
+    font-weight: normal;
+    color: #6c757d;
+}
+
+.empty {
+    margin: 0;
+    color: #6c757d;
+}
+
+.moves {
+    max-height: 16rem;
+    overflow-y: auto;
+    margin: 0;
+    padding-left: 2.25rem;
+}
+
+.moves li {
+    padding: 0.15rem 0;
+}
+
+.moves li:first-child {
+    font-weight: 600;
+}
+
+.dot {
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    margin-right: 0.3em;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    vertical-align: -0.05em;
+}
+
+.player1-dot { background-color: var(--player1); }
+.player2-dot { background-color: var(--player2); }

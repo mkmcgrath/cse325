@@ -1,0 +1,133 @@
+@inject GameState State
+
+@*
+    The tutorial sets these CSS variables in a <HeadContent> block, but the app's
+    <HeadOutlet> is statically rendered, so it never updates after the colors change.
+    Setting them on the game container lets the color pickers recolor the board live.
+*@
+<div class="game" style="@ColorVariables">
+    <section class="play-area">
+        <article class="status" aria-live="polite">
+            @if (winnerMessage == string.Empty)
+            {
+                <span class="turn">
+                    <span class="dot player@(State.PlayerTurn)-dot" aria-hidden="true"></span>
+                    @CurrentTurn
+                </span>
+            }
+            else
+            {
+                <strong class="winner-message">@winnerMessage</strong>
+            }
+            <button class="btn btn-primary reset" style="@ResetStyle" @onclick="ResetGame">Reset the game</button>
+            @if (errorMessage != string.Empty)
+            {
+                <div class="alert alert-danger py-1 px-2 mt-2 mb-0" role="alert">@errorMessage</div>
+            }
+        </article>
+
+        <nav class="drop-buttons turn-player@(State.PlayerTurn)" aria-label="Choose a column">
+            @for (byte i = 0; i < 7; i++)
+            {
+                var col = i;
+                <button type="button"
+                        title="Click to play a piece"
+                        aria-label="Drop piece in column @(col + 1)"
+                        disabled="@(GameOver || State.IsColumnFull(col))"
+                        @onclick="() => PlayPiece(col)">🔽</button>
+            }
+        </nav>
+
+        <div class="board-frame">
+            <div class="board-wrap">
+                @foreach (var move in State.Moves)
+                {
+                    <span class="@PieceClass(move)" title="Move @move.Number: Player @move.Player"></span>
+                }
+
+                <div class="board" aria-hidden="true">
+                    @for (var i = 0; i < 42; i++)
+                    {
+                        <span class="cell">
+                            <span></span>
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <aside class="side-panel">
+        <Scoreboard State="State" OnResetScores="ResetScores" />
+        <MoveHistory Moves="State.Moves" />
+    </aside>
+</div>
+
+@code {
+    private string winnerMessage = string.Empty;
+    private string errorMessage = string.Empty;
+
+    private string CurrentTurn => (winnerMessage == string.Empty) ? $"Player {State.PlayerTurn}'s Turn" : "";
+
+    private string ResetStyle => (winnerMessage == string.Empty) ? "display: none;" : "";
+
+    private bool GameOver => winnerMessage != string.Empty;
+
+    private string ColorVariables =>
+        $"--board-bg: {ColorTranslator.ToHtml(BoardColor)}; " +
+        $"--player1: {ColorTranslator.ToHtml(Player1Color)}; " +
+        $"--player2: {ColorTranslator.ToHtml(Player2Color)};";
+
+    [Parameter]
+    public Color BoardColor { get; set; } = ColorTranslator.FromHtml("yellow");
+
+    [Parameter]
+    public Color Player1Color { get; set; } = ColorTranslator.FromHtml("red");
+
+    [Parameter]
+    public Color Player2Color { get; set; } = ColorTranslator.FromHtml("blue");
+
+    protected override void OnInitialized()
+    {
+        State.ResetBoard();
+    }
+
+    private string PieceClass(Move move)
+    {
+        var winning = State.WinningPositions.Contains(move.BoardIndex) ? " winning" : "";
+        return $"player{move.Player} col{move.Column} drop{move.Row}{winning}";
+    }
+
+    private void PlayPiece(byte col)
+    {
+        errorMessage = string.Empty;
+        try
+        {
+            State.PlayPiece(col);
+        }
+        catch (ArgumentException ex)
+        {
+            errorMessage = ex.Message;
+        }
+
+        winnerMessage = State.CheckForWin() switch
+        {
+            GameState.WinState.Player1_Wins => "Player 1 Wins!",
+            GameState.WinState.Player2_Wins => "Player 2 Wins!",
+            GameState.WinState.Tie => "It's a tie!",
+            _ => ""
+        };
+    }
+
+    private void ResetGame()
+    {
+        State.ResetBoard();
+        winnerMessage = string.Empty;
+        errorMessage = string.Empty;
+    }
+
+    private void ResetScores()
+    {
+        State.ResetScores();
+    }
+}

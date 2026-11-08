@@ -1,0 +1,64 @@
+.panel {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background: #fff;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.35rem 0.4rem;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+th[scope="row"], thead th:first-child {
+    text-align: left;
+    white-space: nowrap;
+}
+
+thead th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+}
+
+tr.hot td, tr.hot th {
+    background-color: #fff4e5;
+}
+
+.dot {
+    display: inline-block;
+    width: 0.9em;
+    height: 0.9em;
+    margin-right: 0.3em;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    vertical-align: -0.1em;
+}
+
+.player1-dot { background-color: var(--player1); }
+.player2-dot { background-color: var(--player2); }
+
+.summary {
+    margin: 0.75rem 0 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+}

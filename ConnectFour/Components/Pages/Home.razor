@@ -1,0 +1,90 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Connect Four</PageTitle>
+
+<h1>Connect Four</h1>
+<p class="intro">Take turns dropping pieces into a column. First player to line up four in a row &mdash; across, down, or diagonally &mdash; wins.</p>
+
+<section class="colors" aria-labelledby="colors-heading">
+    <h2 id="colors-heading">Game colors</h2>
+    <div class="pickers">
+        <label>
+            <input type="color" @bind="player1Hex" @bind:event="oninput" />
+            Player 1
+        </label>
+        <label>
+            <input type="color" @bind="player2Hex" @bind:event="oninput" />
+            Player 2
+        </label>
+        <label>
+            <input type="color" @bind="boardHex" @bind:event="oninput" />
+            Board
+        </label>
+
+        <div class="presets" role="group" aria-label="Color presets">
+            @foreach (var preset in Presets)
+            {
+                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="() => ApplyPreset(preset)">
+                    <span class="swatch" style="background:@preset.Player1" aria-hidden="true"></span><span class="swatch" style="background:@preset.Player2" aria-hidden="true"></span>
+                    @preset.Name
+                </button>
+            }
+        </div>
+    </div>
+    @if (ColorWarning is not null)
+    {
+        <div class="alert alert-warning py-1 px-2 mt-2 mb-0" role="status">@ColorWarning</div>
+    }
+</section>
+
+<Board Player1Color="@ColorTranslator.FromHtml(player1Hex)"
+       Player2Color="@ColorTranslator.FromHtml(player2Hex)"
+       BoardColor="@ColorTranslator.FromHtml(boardHex)" />
+
+@code {
+    private record ColorPreset(string Name, string Player1, string Player2, string Board);
+
+    private static readonly ColorPreset[] Presets =
+    {
+        new("Classic", "#ff0000", "#0000ff", "#ffff00"),
+        new("Color-blind friendly", "#e69f00", "#0072b2", "#e8e8e8"),
+        new("Night", "#ff4f81", "#2dd4bf", "#1e293b"),
+    };
+
+    private string player1Hex = Presets[0].Player1;
+    private string player2Hex = Presets[0].Player2;
+    private string boardHex = Presets[0].Board;
+
+    private void ApplyPreset(ColorPreset preset)
+    {
+        player1Hex = preset.Player1;
+        player2Hex = preset.Player2;
+        boardHex = preset.Board;
+    }
+
+    /// <summary>
+    /// Warn when two of the chosen colors would be hard to tell apart
+    /// </summary>
+    private string? ColorWarning
+    {
+        get
+        {
+            if (TooSimilar(player1Hex, player2Hex))
+                return "Player 1 and Player 2 colors are very similar - the pieces will be hard to tell apart.";
+            if (TooSimilar(player1Hex, boardHex) || TooSimilar(player2Hex, boardHex))
+                return "A piece color is very similar to the board color - pieces may be hard to see.";
+            return null;
+        }
+    }
+
+    private static bool TooSimilar(string a, string b)
+    {
+        var c1 = ColorTranslator.FromHtml(a);
+        var c2 = ColorTranslator.FromHtml(b);
+        var dr = c1.R - c2.R;
+        var dg = c1.G - c2.G;
+        var db = c1.B - c2.B;
+        return Math.Sqrt(dr * dr + dg * dg + db * db) < 60;
+    }
+}

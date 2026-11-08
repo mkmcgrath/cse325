@@ -1,0 +1,48 @@
+<section class="panel" aria-labelledby="scoreboard-heading">
+    <header>
+        <h2 id="scoreboard-heading">Scoreboard</h2>
+        <button type="button" class="btn btn-sm btn-outline-secondary"
+                disabled="@(State.GamesPlayed == 0)"
+                @onclick="OnResetScores">Clear scores</button>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Player</th>
+                <th scope="col">Wins</th>
+                <th scope="col">Streak</th>
+                <th scope="col">Best</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var p = 1; p <= 2; p++)
+            {
+                <tr class="@(State.CurrentStreak[p] >= 2 ? "hot" : "")">
+                    <th scope="row">
+                        <span class="dot player@(p)-dot" aria-hidden="true"></span>
+                        Player @p
+                    </th>
+                    <td>@State.Wins[p]</td>
+                    <td>
+                        @State.CurrentStreak[p]
+                        @if (State.CurrentStreak[p] >= 2)
+                        {
+                            <span title="On a winning streak!" aria-label="on a winning streak">🔥</span>
+                        }
+                    </td>
+                    <td>@State.BestStreak[p]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p class="summary">Games played: @State.GamesPlayed &middot; Ties: @State.Ties</p>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public GameState State { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnResetScores { get; set; }
+}
